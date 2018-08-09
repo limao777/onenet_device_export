@@ -1,0 +1,12 @@
+﻿.htaccess
+.DS_Store
+_codesync
+.history
+.idea/*
+.project
+.settings
+.buildpath
+.settings/*
+#*.exe
+*.exe~
+#conf.ini
