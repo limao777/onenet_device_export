@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/360EntSecGroup-Skylar/excelize"
-	"github.com/Unknwon/goconfig"
+	"github.com/limao777/onenet_device_export/config"
 	"github.com/limao777/onenet_device_export/structs"
 	"io/ioutil"
 	"net/http"
@@ -14,7 +14,6 @@ import (
 	"sync"
 )
 
-var config_cfg *goconfig.ConfigFile
 var xlsx *excelize.File
 var curl_thread int
 var all_dev_counter int = 2
@@ -23,22 +22,11 @@ var lock_co *sync.Mutex
 var curl_chan chan bool
 
 /**
-初始化配置文件和锁
+初始化配置和锁
 */
 func init() {
 	runtime.GOMAXPROCS(runtime.NumCPU())
-
-	var err error
-	config_cfg, err = goconfig.LoadConfigFile("conf.ini")
-	if err != nil {
-		fmt.Println("open conf file error(无法加载配置文件)", err)
-		for {
-		}
-	}
-	config_cfg.GetValue("", "")
-
 	lock_co = new(sync.Mutex)
-
 }
 
 /**
@@ -98,33 +86,65 @@ excel初步工作
 func main() {
 
 	uri := "http://api.heclouds.com/devices?per_page=100"
-	api_key, err := config_cfg.GetValue("onenet", "apiKey")
-	if err != nil {
+
+	api_key := config.Get("onenet", "apiKey")
+	if api_key == "" {
 		fmt.Println("get config api-key error(配置文件获取api-key错误)")
 		for {
 		}
 	}
-	curl_thread_str, err := config_cfg.GetValue("app", "goroutine")
-	if err != nil {
+
+	curl_thread_str := config.Get("app", "goroutine")
+	if curl_thread_str == "" {
 		fmt.Println("get config goroutine error(配置文件获取goroutine错误)")
 		for {
 		}
 	}
+	var err error
 	curl_thread, err = strconv.Atoi(curl_thread_str)
 	if err != nil {
 		fmt.Println("get config format goroutine error(配置文件获取goroutine格式错误)")
 		for {
 		}
 	}
-
 	if curl_thread < 1 {
 		curl_thread = 1
 	}
 	if curl_thread > 100 {
 		curl_thread = 100
 	}
-
 	api_key = strings.Trim(api_key, " ")
+
+	search_key_words := config.Get("search", "key_words")
+	if search_key_words != "" {
+		uri = uri + "&key_words=" + search_key_words
+	}
+	search_online := config.Get("search", "online")
+	if search_online != "" {
+		uri = uri + "&online=" + search_online
+	}
+	search_auth_info := config.Get("search", "auth_info")
+	if search_auth_info != "" {
+		uri = uri + "&auth_info=" + search_auth_info
+	}
+	search_tag := config.Get("search", "tag")
+	if search_tag != "" {
+		uri = uri + "&tag=" + search_tag
+	}
+	search_private := config.Get("search", "private")
+	if search_private != "" {
+		uri = uri + "&private=" + search_private
+	}
+	search_begin := config.Get("search", "begin")
+	if search_begin != "" {
+		uri = uri + "&begin=" + search_begin
+	}
+	search_end := config.Get("search", "end")
+	if search_end != "" {
+		uri = uri + "&end=" + search_end
+	}
+	
+//	fmt.Println(uri)
 
 	xlsx = excelize.NewFile()
 	index := xlsx.NewSheet("Export")
@@ -177,6 +197,7 @@ func do_curl(uri string, i int, api_key string) {
 		var err error
 
 		curl_uri := uri + "&page=" + strconv.Itoa(j)
+		
 		req, err = http.NewRequest("GET", curl_uri, nil)
 		req.Header.Set("api-key", api_key)
 
