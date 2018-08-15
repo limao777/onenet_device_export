@@ -31,6 +31,9 @@ go get https://github.com/limao777/onenet_device_export
 再进入该目录 go build即可
 
 ## 更新历史
+2018-08-15
+变更url为从配置文件获取，兼容各个省平台
+
 2018-08-10
 增加查询参数
 

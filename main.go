@@ -85,7 +85,13 @@ excel初步工作
 */
 func main() {
 
-	uri := "http://api.heclouds.com/devices?per_page=100"
+	uri := config.Get("onenet", "url")
+	if uri == "" {
+		fmt.Println("get url error(配置文件获取url错误)")
+		for {
+		}
+	}
+	uri = strings.TrimRight(uri, "/") + "?per_page=100"
 
 	api_key := config.Get("onenet", "apiKey")
 	if api_key == "" {
@@ -143,9 +149,9 @@ func main() {
 	if search_end != "" {
 		uri = uri + "&end=" + search_end
 	}
-	
-//	fmt.Println(uri)
 
+//	fmt.Println(uri)
+	
 	xlsx = excelize.NewFile()
 	index := xlsx.NewSheet("Export")
 	xlsx.SetActiveSheet(index)
@@ -197,7 +203,7 @@ func do_curl(uri string, i int, api_key string) {
 		var err error
 
 		curl_uri := uri + "&page=" + strconv.Itoa(j)
-		
+
 		req, err = http.NewRequest("GET", curl_uri, nil)
 		req.Header.Set("api-key", api_key)
 
