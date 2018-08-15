@@ -91,7 +91,7 @@ func main() {
 		for {
 		}
 	}
-	uri = strings.TrimRight(uri, "/") + "?per_page=100"
+	uri = strings.TrimRight(uri, "/") + "/devices?per_page=100"
 
 	api_key := config.Get("onenet", "apiKey")
 	if api_key == "" {
@@ -151,7 +151,7 @@ func main() {
 	}
 
 //	fmt.Println(uri)
-	
+
 	xlsx = excelize.NewFile()
 	index := xlsx.NewSheet("Export")
 	xlsx.SetActiveSheet(index)
