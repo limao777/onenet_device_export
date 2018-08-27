@@ -4,11 +4,11 @@ OneNET设备批量下载
 ## 快速使用
 下载程序
 
-编辑conf.ini中的api-key改为你的key
+编辑app.conf中的api-key改为你的key
 
 运行程序
 
-## conf.ini中查询的一些参数解释
+## app.conf中查询的一些参数解释
 key_words=my, //匹配关键字（可选，从id和title字段中左匹配）
 
 auth_info=203x1 //鉴权信息（可选，对应注册时的sn参数，唯一设备编号）
@@ -31,11 +31,23 @@ go get https://github.com/limao777/onenet_device_export
 再进入该目录 go build即可
 
 ## 更新历史
+2018-08-27
+
+变更配置文件名字，尽量不让windows文本编辑器直接打开编辑，使配置文件使用UTF-8编码
+
+url的key_word、tag进行URL编码以支持中文搜索
+
+
 2018-08-15
+
 变更url为从配置文件获取，兼容各个省平台
 
+
 2018-08-10
+
 增加查询参数
 
+
 2018-08-09
+
 基础全量版研发完毕

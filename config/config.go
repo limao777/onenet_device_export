@@ -10,7 +10,7 @@ var config_cfg *goconfig.ConfigFile
 //加载文件无法使用统一logging
 func init() {
 	var err error
-	config_cfg, err = goconfig.LoadConfigFile("conf.ini")
+	config_cfg, err = goconfig.LoadConfigFile("app.conf")
 	if err != nil {
 		fmt.Println("open conf file error", err)
 		for{}

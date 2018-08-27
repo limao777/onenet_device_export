@@ -8,6 +8,7 @@ import (
 	"github.com/limao777/onenet_device_export/structs"
 	"io/ioutil"
 	"net/http"
+	"net/url"
 	"runtime"
 	"strconv"
 	"strings"
@@ -123,6 +124,7 @@ func main() {
 
 	search_key_words := config.Get("search", "key_words")
 	if search_key_words != "" {
+	    search_key_words = url.QueryEscape(search_key_words)
 		uri = uri + "&key_words=" + search_key_words
 	}
 	search_online := config.Get("search", "online")
@@ -135,6 +137,7 @@ func main() {
 	}
 	search_tag := config.Get("search", "tag")
 	if search_tag != "" {
+	    search_tag = url.QueryEscape(search_tag)
 		uri = uri + "&tag=" + search_tag
 	}
 	search_private := config.Get("search", "private")
