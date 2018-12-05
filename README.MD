@@ -1,6 +1,18 @@
 # onenet_device_export
 OneNET设备批量下载
 
+最新代码已迁移到
+https://github.com/cm-heclouds/onenet_device_export
+
+最新代码已迁移到
+https://github.com/cm-heclouds/onenet_device_export
+
+最新代码已迁移到
+https://github.com/cm-heclouds/onenet_device_export
+
+从2018年12月开始不再更新到本项目，访问https://github.com/cm-heclouds/onenet_device_export
+获取最新程序
+
 ## 快速使用(适用windows 7及以上环境)
 下载程序，进入exe目录
 
